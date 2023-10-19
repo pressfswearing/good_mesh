@@ -26,26 +26,16 @@ def homeworks(message):
 	date = bot.send_message(message.chat.id, 'Введи дату, на которую нужно получить домашку, в таком формате:\n2023-10-18')
 	bot.register_next_step_handler(date, homeworks1)
 def homeworks1(message):
-	data = message.text
-	home_workk = homework.get_homework_by_date(data)
-	string = home_workk
-	items = str(string).split(", ")
+	date = message.text
+	home_workk = homework.get_homework_by_date('2023-10-18')
+	for i in range(len(home_workk)):
+		strr = str(home_workk[i])
+		bot.send_message(message.chat.id, strr)
 
-	descriptions = []
-	subject_names = []
-	is_done_values = []
+@bot.message_handler(commands=['marks'])
+def marks(message):
+	date = bot.send_message(message.chat.id, 'Введи дату, на которую хочешь получить оценки, в таком формате:\n2023-10-18')
+	bot.register_next_step_handler(date, marks1)
 
-	for item in items:
-	    if "description" in item:
-	        description = item.split("=")[1].strip("'")
-	        descriptions.append(description.strip())
-	    elif "subject_name" in item:
-	        subject_name = item.split("=")[1].strip("'")
-	        subject_names.append(subject_name.strip())
-	    elif "is_done" in item:
-	         is_done_value = item.split("=")[1].strip(")").lower() == "true"
-	         is_done_values.append(is_done_value)
 
-	for i in range(len(descriptions)):
-		bot.send_message(message.chat.id, subject_names[i] + ': ' + descriptions[i])
 bot.polling(interval = 0, none_stop = True)

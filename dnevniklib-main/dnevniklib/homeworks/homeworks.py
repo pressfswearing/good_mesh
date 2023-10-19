@@ -20,12 +20,35 @@ class Homeworks:
         for homework in response.json()["payload"]:
             res.append(
                 HomeworkType(
-                    id=homework["homework_entry_student_id"],
-                    description=homework["description"],
-                    subject_id=homework["subject_id"],
                     subject_name=homework["subject_name"],
+                    description=homework["description"],
                     created_at=homework["date_assigned_on"],
-                    is_done=homework["is_done"]
+                    is_done=homework["is_done"],
+                    id=homework["homework_entry_student_id"],
+                    subject_id=homework["subject_id"]
+                )
+            )
+        print(self.student_id)
+        return res
+
+    def get_schedule(self, date):
+        res = []
+        response = get(
+            f"https://school.mos.ru/api/family/web/v1/schedule?student_id={self.student_id}&date={date}",
+            headers={
+                "Auth-Token": self.token,
+                "X-Mes-Subsystem": "familyweb"
+            }
+        )
+        for schedule in response.json()["payload"]:
+            res.append(
+                HomeworkType(
+                    subject_name=homework["subject_name"],
+                    description=homework["description"],
+                    created_at=homework["date_assigned_on"],
+                    is_done=homework["is_done"],
+                    id=homework["homework_entry_student_id"],
+                    subject_id=homework["subject_id"]
                 )
             )
         return res
