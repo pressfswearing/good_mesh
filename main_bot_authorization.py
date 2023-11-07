@@ -4,7 +4,7 @@ from dnevniklib.student import Student
 from dnevniklib.errors import token as token_error
 from background import keep_alive
 
-bot = telebot.TeleBot('token')
+bot = telebot.TeleBot('6487833703:AAGL9V98CNDHPP7X7FWbYueOug3hstP84Lg')
 
 @bot.message_handler(commands=['start'])
 def start(message):
