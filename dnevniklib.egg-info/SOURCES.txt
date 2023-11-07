@@ -1,0 +1,7 @@
+README.md
+setup.py
+dnevniklib.egg-info/PKG-INFO
+dnevniklib.egg-info/SOURCES.txt
+dnevniklib.egg-info/dependency_links.txt
+dnevniklib.egg-info/requires.txt
+dnevniklib.egg-info/top_level.txt
