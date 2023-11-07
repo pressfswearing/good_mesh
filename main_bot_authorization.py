@@ -2,7 +2,6 @@ import telebot
 from dnevniklib.homeworks import Homeworks
 from dnevniklib.student import Student
 from dnevniklib.errors import token as token_error
-from background import keep_alive
 
 bot = telebot.TeleBot('6487833703:AAGL9V98CNDHPP7X7FWbYueOug3hstP84Lg')
 
@@ -154,5 +153,4 @@ def admin_notification1(message):
 def info(message):
   bot.send_message(message.chat.id, 'Хочу сказать спасибо себе за то, что я гений, и всем людям, которые меня поддерживали. Отдельное спасибо моей лучшей подруге, лучше её нет никого)\nСвязь со мной - @yandexerr')
 
-keep_alive()
 bot.polling(interval = 0, none_stop = True)
