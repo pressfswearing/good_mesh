@@ -17,8 +17,30 @@ class Homeworks:
             }
         )
         for homework in response.json()["payload"]:
+            temp = ''
             if 'subject_name' in homework and 'description' in homework:
-                res.append(homework['subject_name'] + ': ' + homework['description'])
+                res.append(homework['subject_name'] + ': ' + homework['description'])                
+        return res
+
+    def get_attachments(self, date):
+        res = []
+        response = get(
+            f"https://school.mos.ru/api/family/web/v1/homeworks?from={date}&to={date}&student_id={self.student_id}",
+            headers={
+                "Auth-Token": self.token,
+                "X-Mes-Subsystem": "familyweb"
+            }
+        )
+        for attach in response.json()['payload']:
+            additional_materials = attach['additional_materials']
+            for material in additional_materials:
+                if material['type'] == 'attachments':
+                    items = material['items']
+                    for item in items:
+                        type_name = item['type_name']
+                        title = item['title']
+                        res.append(type_name, title)
+
         return res
 
     def get_schedule(self, date):
