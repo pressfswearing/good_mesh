@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QLineEdit, QPlainTextEdit
 from dnevniklib.homeworks import Homeworks
 from dnevniklib.student import Student
+from dnevniklib.errors import token as token_error
 
 
 class dnevnik(QMainWindow):
@@ -59,37 +60,49 @@ class dnevnik(QMainWindow):
         self.info.clicked.connect(self.info_def)
 
     def homework(self):
-        student = Student(token=self.tokenn.text())
-        homework = Homeworks(Student(token=self.tokenn.text()))
-        self.text_space.clear()
-        self.text_space.appendPlainText(
-            'Твои домашки на ' + self.day_for_all.text() + ':')
-        self.text_space.appendPlainText('')
-        home_workk = homework.get_homework_by_date(self.day_for_all.text())
-        for i in range(len(home_workk)):
-            self.text_space.appendPlainText(str(home_workk[i]))
+        try:
+            student = Student(token=self.tokenn.text())
+            homework = Homeworks(Student(token=self.tokenn.text()))
+            self.text_space.clear()
+            self.text_space.appendPlainText(
+                'Твои домашки на ' + self.day_for_all.text() + ':')
+            self.text_space.appendPlainText('')
+            home_workk = homework.get_homework_by_date(self.day_for_all.text())
+            for i in range(len(home_workk)):
+                self.text_space.appendPlainText(str(home_workk[i]))
+        except token_error.DnevnikTokenError:
+            self.text_space.clear()
+            self.text_space.appendPlainText('Твой токен для бота сломан, напиши разработчику - @yandexerr - он тебе поможет.')
 
     def schedule(self):
-        student = Student(token=self.tokenn.text())
-        homework = Homeworks(Student(token=self.tokenn.text()))
-        self.text_space.clear()
-        self.text_space.appendPlainText(
-            'Твоё расписание на ' + self.day_for_all.text() + ':')
-        self.text_space.appendPlainText('')
-        sche_dule = homework.get_schedule(self.day_for_all.text())
-        for i in range(len(sche_dule)):
-            self.text_space.appendPlainText(str(sche_dule[i]))
+        try:
+            student = Student(token=self.tokenn.text())
+            homework = Homeworks(Student(token=self.tokenn.text()))
+            self.text_space.clear()
+            self.text_space.appendPlainText(
+                'Твоё расписание на ' + self.day_for_all.text() + ':')
+            self.text_space.appendPlainText('')
+            sche_dule = homework.get_schedule(self.day_for_all.text())
+            for i in range(len(sche_dule)):
+                self.text_space.appendPlainText(str(sche_dule[i]))
+        except token_error.DnevnikTokenError:
+            self.text_space.clear()
+            self.text_space.appendPlainText('Твой токен для бота сломан, напиши разработчику - @yandexerr - он тебе поможет.')
 
     def day_marks_def(self):
-        student = Student(token=self.tokenn.text())
-        homework = Homeworks(Student(token=self.tokenn.text()))
-        self.text_space.clear()
-        self.text_space.appendPlainText(
-            'Твои оценки за ' + self.day_for_all.text() + ':')
-        self.text_space.appendPlainText('')
-        mar_ks = homework.get_marks(self.day_for_all.text())
-        for i in range(len(mar_ks)):
-            self.text_space.appendPlainText(str(mar_ks[i]))
+        try:
+            student = Student(token=self.tokenn.text())
+            homework = Homeworks(Student(token=self.tokenn.text()))
+            self.text_space.clear()
+            self.text_space.appendPlainText(
+                'Твои оценки за ' + self.day_for_all.text() + ':')
+            self.text_space.appendPlainText('')
+            mar_ks = homework.get_marks(self.day_for_all.text())
+            for i in range(len(mar_ks)):
+                self.text_space.appendPlainText(str(mar_ks[i]))
+        except token_error.DnevnikTokenError:
+            self.text_space.clear()
+            self.text_space.appendPlainText('Твой токен для бота сломан, напиши разработчику - @yandexerr - он тебе поможет.')
 
     def trimester_marks_def(self):
         student = Student(token=self.tokenn.text())

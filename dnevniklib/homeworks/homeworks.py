@@ -22,7 +22,7 @@ class Homeworks:
                 if 'subject_name' in homework and 'description' in homework:
                     res.append(homework['subject_name'] + ': ' + homework['description'])
             except requests.exceptions.JSONDecodeError:
-                res.append('Внутрення ошибка. Поодожди некотрое время или напиши разработчику - @yandexerr.')
+                res.append('Внутренняя ошибка. Поодожди некотрое время или напиши разработчику - @yandexerr.')
         return res
 
     def get_attachments(self, date):
@@ -34,8 +34,8 @@ class Homeworks:
                 "X-Mes-Subsystem": "familyweb"
             }
         )
-        for attach in response.json()['payload']:
-            additional_materials = attach['additional_materials']
+        for attachment in response.json()['payload']:
+            additional_materials = attachment['additional_materials']
             for material in additional_materials:
                 if material['type'] == 'attachments':
                     items = material['items']
