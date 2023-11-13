@@ -17,9 +17,12 @@ class Homeworks:
             }
         )
         for homework in response.json()["payload"]:
-            temp = ''
-            if 'subject_name' in homework and 'description' in homework:
-                res.append(homework['subject_name'] + ': ' + homework['description'])                
+            try:
+                temp = ''
+                if 'subject_name' in homework and 'description' in homework:
+                    res.append(homework['subject_name'] + ': ' + homework['description'])
+            except requests.exceptions.JSONDecodeError:
+                res.append('Внутрення ошибка. Поодожди некотрое время или напиши разработчику - @yandexerr.')
         return res
 
     def get_attachments(self, date):
@@ -53,8 +56,11 @@ class Homeworks:
             }
         )
         for schedule in response.json()["activities"]:
-            if 'lesson' in schedule and 'subject_name' in schedule['lesson'] and 'begin_time' in schedule and 'end_time' in schedule:
-                res.append(schedule['lesson']['subject_name'] + ': ' + schedule['begin_time'] + '-' + schedule['end_time'])
+            try:
+                if 'lesson' in schedule and 'subject_name' in schedule['lesson'] and 'begin_time' in schedule and 'end_time' in schedule:
+                    res.append(schedule['lesson']['subject_name'] + ': ' + schedule['begin_time'] + '-' + schedule['end_time'])              
+            except requests.exceptions.JSONDecodeError:
+                res.append('Внутренняя ошибка. Поодожди некотрое время или напиши разработчику - @yandexerr.')
         return res
 
     def get_marks(self, date):
@@ -67,10 +73,13 @@ class Homeworks:
             }
         )
         for activity in response.json()["activities"]:
-            if 'lesson' in activity and 'marks' in activity['lesson'] and 'subject_name' in activity['lesson']:
-                for mark in activity['lesson']['marks']:
-                    value = mark['value']
-                    res.append(activity['lesson']['subject_name'] + ': ' + value)
+            try:
+                if 'lesson' in activity and 'marks' in activity['lesson'] and 'subject_name' in activity['lesson']:
+                    for mark in activity['lesson']['marks']:
+                        value = mark['value']
+                        res.append(activity['lesson']['subject_name'] + ': ' + value)
+            except requests.exceptions.JSONDecodeError:
+                res.append('Внутренняя ошибка. Поодожди некотрое время или напиши разработчику - @yandexerr.')
         return res
 
     def get_trimester_marks(self, trimester, academic_year_id: int = 11):
