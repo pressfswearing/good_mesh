@@ -3,7 +3,7 @@ from dnevniklib.homeworks import Homeworks
 from dnevniklib.student import Student
 from dnevniklib.errors import token as token_error
 
-bot = telebot.TeleBot('6487833703:AAGL9V98CNDHPP7X7FWbYueOug3hstP84Lg')
+bot = telebot.TeleBot('6519108137:AAFE1N7FT_zfLAFlPcZ-ShJV4fDxY1bhooY')
 
 @bot.message_handler(commands=['start'])
 def start(message):
