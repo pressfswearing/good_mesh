@@ -153,4 +153,30 @@ def admin_notification1(message):
 def info(message):
   bot.send_message(message.chat.id, 'Хочу сказать спасибо себе за то, что я гений, и всем людям, которые меня поддерживали. Отдельное спасибо моей лучшей подруге, лучше её нет никого)\nСвязь со мной - @yandexerr')
 
+@bot.message_handler(commands=['get_attachments'])
+def get_attachments(message):
+  date = bot.send_message(message.chat.id, 'Отправь дату, на которую хочешь увидеть домашки, в таком формате:\n2023-10-25')
+  bot.register_next_step_handler(date, get_attachments1)
+def get_attachments1(message):
+  date = message.text
+  general_file = open('general_datas.txt', 'r', encoding='utf-8')
+  line = general_file.read()
+  array = line.split("\n")
+  for i in array:
+    if message.from_user.username in i:
+      profile_split = i.split("@")
+      username = profile_split[0]
+      token = profile_split[1]
+      try:
+        student = Student(token=token)
+        homework = Homeworks(Student(token=token))
+        homeworks_general = []
+        homeworks = homework.get_attachments(date)
+        for i in range(len(homeworks)):
+          homeworks_general.append(homeworks[i])
+        for i in homeworks_general:
+          bot.send_message(message.chat.id, i)
+      except token_error.DnevnikTokenError:
+        bot.send_message(message.chat.id, 'Твой токен для бота сломан, напиши разработчику - @yandexerr - он тебе поможет.')
+
 bot.polling(interval = 0, none_stop = True)
